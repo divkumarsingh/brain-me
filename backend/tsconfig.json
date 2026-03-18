@@ -1,4 +1,5 @@
 {
+    "include": ["src/**/*"],
   // Visit https://aka.ms/tsconfig to read more about this file
   "compilerOptions": {
     // File Layout
@@ -14,6 +15,8 @@
     // "lib": ["esnext"],
     // "types": ["node"],
     // and npm install -D @types/node
+    "typeRoots": ["./node_modules/@types", "./src/types"],
+
 
     // Other Outputs
     "sourceMap": true,
