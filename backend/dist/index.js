@@ -41,6 +41,7 @@ const db_1 = __importStar(require("./db"));
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 require("dotenv/config");
 const middleware_1 = require("./middleware");
+const utils_1 = require("./utils");
 const app = (0, express_1.default)();
 app.use(express_1.default.json());
 (0, db_1.default)();
@@ -83,9 +84,6 @@ app.post("/api/v1/signin", async (req, res) => {
             message: "Incorrect credentials."
         });
     }
-    res.status(200).json({
-        message: "signin successfull"
-    });
 });
 app.post("/api/v1/content", middleware_1.userMiddleware, async (req, res) => {
     const link = req.body.link;
@@ -113,12 +111,85 @@ app.get("/api/v1/content", middleware_1.userMiddleware, async (req, res) => {
     const userId = req.userId;
     const content = await db_1.ContentModel.find({
         userId: userId
-    });
+    }).populate("userId", "username");
     res.json({
         content
     });
 });
-app.delete("/api/v1/content", (req, res) => {
+app.delete("/api/v1/content", middleware_1.userMiddleware, async (req, res) => {
+    const contentId = req.body.contentId;
+    try {
+        await db_1.ContentModel.deleteMany({
+            contentId,
+            //@ts-ignore
+            userId: req.userId
+        });
+        return res.json({
+            message: "Deleted"
+        });
+    }
+    catch (e) {
+        res.status(401).json({
+            message: "Unable to delete content"
+        });
+    }
+});
+app.post("/api/v1/brain/share", middleware_1.userMiddleware, async (req, res) => {
+    const share = req.body.share;
+    if (share) {
+        const existingLink = await db_1.LinkModel.findOne({
+            //@ts-ignore
+            userId: req.userId
+        });
+        if (existingLink) {
+            res.json({
+                hash: existingLink.hash
+            });
+            return;
+        }
+        else {
+            const hash = (0, utils_1.random)(10);
+            await db_1.LinkModel.create({
+                //@ts-ignore
+                userId: req.userId,
+                hash: hash
+            });
+            res.json({
+                message: "/" + hash
+            });
+        }
+    }
+    else {
+        await db_1.LinkModel.deleteOne({
+            //@ts-ignore
+            userId: req.userId,
+        });
+        res.json({
+            message: "Removed link"
+        });
+    }
+});
+app.get("/api/v1/brain/:shareLink", async (req, res) => {
+    const hash = req.params.shareLink;
+    const link = await db_1.LinkModel.findOne({
+        hash
+    });
+    if (!link) {
+        res.status(411).json({
+            messagse: "incorrect link,  user link not exists"
+        });
+        return;
+    }
+    const content = await db_1.ContentModel.find({
+        userId: link?.userId,
+    });
+    const user = await db_1.UserModel.findOne({
+        userId: link.userId
+    });
+    res.json({
+        username: user?.username,
+        content
+    });
 });
 app.listen(3000, () => {
     console.log("connected to server");

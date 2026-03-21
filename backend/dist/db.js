@@ -33,7 +33,7 @@ var __importStar = (this && this.__importStar) || (function () {
     };
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.UserModel = exports.ContentModel = void 0;
+exports.LinkModel = exports.UserModel = exports.ContentModel = void 0;
 const mongoose_1 = __importStar(require("mongoose"));
 require("dotenv/config");
 const connectDB = async () => {
@@ -55,7 +55,12 @@ const contentSchema = new mongoose_1.Schema({
     tags: [{ type: mongoose_1.default.Types.ObjectId, ref: 'Tag' }],
     userId: { type: mongoose_1.default.Types.ObjectId, ref: 'User', required: true }
 });
+const linkSchema = new mongoose_1.Schema({
+    hash: String,
+    userId: { type: mongoose_1.default.Types.ObjectId, ref: "User", required: true, unique: true }
+});
 exports.ContentModel = (0, mongoose_1.model)("Content", contentSchema);
 exports.UserModel = (0, mongoose_1.model)("User", userSchema);
+exports.LinkModel = (0, mongoose_1.model)("Link", linkSchema);
 exports.default = connectDB;
 //# sourceMappingURL=db.js.map
