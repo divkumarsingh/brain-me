@@ -8,12 +8,14 @@ interface ButtonProps {
     variant: Variants;
     size: "sm" | "md" | "lg";
     text: string;
-    startIcon?: ReactElement,
-    endIcon?: ReactElement,
-    onclick: () => void;
+    startIcon?: ReactElement;
+    endIcon?: ReactElement;
+    onClick?: () => void;
+    fullWidth?: boolean;
+    loading?: boolean;
 }
 
-const defaultStyle = "rounded-md flex"
+const defaultStyle = "rounded-md flex font-normal items-center"
 
 const variantStyles = {
     "primary" :  "bg-purple-600 text-white",
@@ -27,7 +29,17 @@ const sizeStlyes = {
 }
 
 
-export const Button = (props: ButtonProps) => {
+export const Button = ({variant, text, size ,startIcon, onClick, fullWidth, endIcon, loading}: ButtonProps) => {
 
-    return <button className={`${variantStyles[props.variant]} ${defaultStyle} ${sizeStlyes[props.size]}`}>{props.startIcon ? <div className="pr-2">{props.startIcon}</div> : null}{props.text}{props.endIcon}</button>
+    return <button 
+    onClick={onClick} 
+    className={`${variantStyles[variant]} 
+        ${defaultStyle} 
+        ${sizeStlyes[size]} 
+        ${fullWidth ? " w-full flex justify-center align-center" : "" } 
+        ${loading} ? `}>
+        {startIcon ? <div className="pr-2">{startIcon}</div> : null}
+        {text}
+        {endIcon}
+        </button>
 }
