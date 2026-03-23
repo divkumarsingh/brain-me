@@ -37,7 +37,8 @@ export const Button = ({variant, text, size ,startIcon, onClick, fullWidth, endI
         ${defaultStyle} 
         ${sizeStlyes[size]} 
         ${fullWidth ? " w-full flex justify-center align-center" : "" } 
-        ${loading} ? `}>
+        ${loading ? "opacity-80" : ""}  
+        `} disabled={loading}>
         {startIcon ? <div className="pr-2">{startIcon}</div> : null}
         {text}
         {endIcon}

@@ -1,3 +1,5 @@
+import { readBuilderProgram } from 'typescript';
+
 /** @type {import('tailwindcss').Config} */
 export default {
   content: [
@@ -8,6 +10,7 @@ export default {
     extend: {
       colors: {
         gray: {
+          50: rgba(255, 0, 0, 0.5),
           100:"#eeeeef", 
           200:"#e6e9ed",
           600:"95989c",

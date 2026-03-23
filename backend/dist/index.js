@@ -42,8 +42,10 @@ const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 require("dotenv/config");
 const middleware_1 = require("./middleware");
 const utils_1 = require("./utils");
+const cors_1 = __importDefault(require("cors"));
 const app = (0, express_1.default)();
 app.use(express_1.default.json());
+app.use((0, cors_1.default)());
 (0, db_1.default)();
 app.post("/api/v1/signup", async (req, res) => {
     //add zod validation here, hash the password, 
@@ -88,12 +90,14 @@ app.post("/api/v1/signin", async (req, res) => {
 app.post("/api/v1/content", middleware_1.userMiddleware, async (req, res) => {
     const link = req.body.link;
     const title = req.body.title;
+    const type = req.body.type;
     try {
         await db_1.ContentModel.create({
             //@ts-ignore
             userId: req.userId,
             title,
             link,
+            type,
             tags: []
         });
         res.json({

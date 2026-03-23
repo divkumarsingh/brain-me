@@ -1,14 +1,15 @@
 import express from "express";
-import mongoose from "mongoose";
 import connectDB, { ContentModel, LinkModel, UserModel } from "./db";
 import jwt from "jsonwebtoken";
 import "dotenv/config";
 import { userMiddleware } from "./middleware";
 import { random } from "./utils";
-
+import cors from "cors"
 
 const app = express();
 app.use(express.json());
+app.use(cors());
+
 connectDB();
 
 
@@ -62,12 +63,14 @@ app.post("/api/v1/signin", async (req, res) => {
 app.post("/api/v1/content", userMiddleware, async(req, res) =>{
     const link = req.body.link;
     const title = req.body.title;
+    const type = req.body.type
     try{
         await ContentModel.create({
             //@ts-ignore
             userId: req.userId,
             title,
             link,
+            type,
             tags: []
         })
 

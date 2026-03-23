@@ -4,6 +4,7 @@ declare const connectDB: () => Promise<void>;
 export declare const ContentModel: mongoose.Model<{
     tags: mongoose.Types.ObjectId[];
     userId: mongoose.Types.ObjectId;
+    type?: string | null;
     title?: string | null;
     link?: string | null;
 }, {}, {}, {
@@ -11,6 +12,7 @@ export declare const ContentModel: mongoose.Model<{
 }, mongoose.Document<unknown, {}, {
     tags: mongoose.Types.ObjectId[];
     userId: mongoose.Types.ObjectId;
+    type?: string | null;
     title?: string | null;
     link?: string | null;
 }, {
@@ -18,6 +20,7 @@ export declare const ContentModel: mongoose.Model<{
 }, mongoose.DefaultSchemaOptions> & Omit<{
     tags: mongoose.Types.ObjectId[];
     userId: mongoose.Types.ObjectId;
+    type?: string | null;
     title?: string | null;
     link?: string | null;
 } & {
@@ -29,11 +32,13 @@ export declare const ContentModel: mongoose.Model<{
 }, mongoose.Schema<any, mongoose.Model<any, any, any, any, any, any, any>, {}, {}, {}, {}, mongoose.DefaultSchemaOptions, {
     tags: mongoose.Types.ObjectId[];
     userId: mongoose.Types.ObjectId;
+    type?: string | null;
     title?: string | null;
     link?: string | null;
 }, mongoose.Document<unknown, {}, {
     tags: mongoose.Types.ObjectId[];
     userId: mongoose.Types.ObjectId;
+    type?: string | null;
     title?: string | null;
     link?: string | null;
 }, {
@@ -41,6 +46,7 @@ export declare const ContentModel: mongoose.Model<{
 }, mongoose.DefaultSchemaOptions> & Omit<{
     tags: mongoose.Types.ObjectId[];
     userId: mongoose.Types.ObjectId;
+    type?: string | null;
     title?: string | null;
     link?: string | null;
 } & {
@@ -52,6 +58,7 @@ export declare const ContentModel: mongoose.Model<{
 }, unknown, {
     tags: mongoose.Types.ObjectId[];
     userId: mongoose.Types.ObjectId;
+    type?: string | null;
     title?: string | null;
     link?: string | null;
 } & {
@@ -61,6 +68,7 @@ export declare const ContentModel: mongoose.Model<{
 }>, {
     tags: mongoose.Types.ObjectId[];
     userId: mongoose.Types.ObjectId;
+    type?: string | null;
     title?: string | null;
     link?: string | null;
 } & {
